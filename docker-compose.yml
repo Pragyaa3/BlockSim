@@ -1,0 +1,9 @@
+version: '3'
+services:
+  blockchain:
+    build: .
+    container_name: blockchain_simulation
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: ["node", "index.js"]
