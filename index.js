@@ -3,14 +3,19 @@ const Block = require("./block");
 
 let myBlockchain = new Blockchain();
 
-myBlockchain.addBlock(new Block(1, Date.now(), {amount: 100}));
-myBlockchain.addBlock(new Block(2, Date.now(), {amount: 50}));
-// myBlockchain.addBlock(new Block(3, Date.now(), {amount: 500}));
-// myBlockchain.addBlock(new Block(4, Date.now(), {amount: 200}));
+// Add transactions to the blockchain
+myBlockchain.addTransaction({ sender: "Alice", receiver: "Bob", amount: 100 });
+myBlockchain.addTransaction({ sender: "Bob", receiver: "Charlie", amount: 50 });
 
-console.log(JSON.stringify(myBlockchain, null, 2));
+// Mine the pending transactions (create a block and mine it)
+myBlockchain.minePendingTransactions();
+
+// Check blockchain validity
 console.log("Blockchain valid?", myBlockchain.isChainValid());
 
-myBlockchain.chain[1].transactions = {amount: 1000}; // Tampering with a block's data
+// Add another transaction and mine another block
+myBlockchain.addTransaction({ sender: "Charlie", receiver: "David", amount: 30 });
+myBlockchain.minePendingTransactions();
 
-console.log("Blockchain valid after tampering?", myBlockchain.isChainValid());
+console.log("Blockchain valid after adding new block?", myBlockchain.isChainValid());
+console.log(JSON.stringify(myBlockchain, null, 2));
